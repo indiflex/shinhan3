@@ -69,21 +69,19 @@ alter table Dept modify column workdate timestamp not null
   default current_timestamp
   on update current_timestamp
   comment '작업일시'
-  after pid;
+  after createdate;
   
 alter table Dept add column createdate timestamp not null 
   default current_timestamp comment '생성일시' after pid;
 
 select * from Emp;
 desc Emp;
-select * from Dept;
+
 show index from Dept;
 show create table Dept;
 
-alter table Emp add column auth tinyint not null 
-  default 0 comment '권한(0:sys, 1:super, …, 9:guest)' after dept;
   
-alter table Emp modify column auth tinyint not null 
+alter table Emp add column auth tinyint not null 
   default 9 comment '권한(0:sys, 1:super, …, 9:guest)' after dept;
   
 update Emp set auth = 9 where id > 0;
@@ -91,5 +89,32 @@ update Emp set auth = 9 where id > 0;
 -- Dept.captain - Emp.id
 alter table Dept add column captain int unsigned null comment '부서장';
  
-alter table Dept add constraint fk_captain_Emp foreign key (captain) references Emp(id);
-  -- on delete set null on update cascade;
+alter table Dept add constraint fk_captain_Emp foreign key (captain) references Emp(id)
+  on delete set null on update cascade;
+
+-- 
+update Dept set captain = id + 10 where id > 0;
+select * from Emp order by id desc;
+
+select * from Dept;
+select * from Emp
+-- update Emp set id=253
+-- delete from Emp
+ where id=253;
+select d.*, e.ename as captain_name from Dept d inner join Emp e on d.captain = e.id;
+
+-- EmailLog
+create table EmailLog(
+    id int not null auto_increment primary key,
+    sender int unsigned not null comment '발송직원',
+    receiver varchar(1024) not null comment '수신 정보',
+    subject varchar(255) not null default '무제(냉무)' comment '제목',
+    body text null comment '내용',
+    foreign key fk_sender_Emp(sender) references Emp(id)
+      on delete cascade on update cascade
+);
+
+show index from EmailLog;
+select * from EmailLog;
+
+

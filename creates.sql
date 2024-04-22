@@ -15,6 +15,7 @@ create table Major(
 );
 
 select * from Major;
+select * from Student;
 
 insert Major(name) values('철학과');
 insert Major(name) values('컴퓨터공학과');
@@ -73,3 +74,38 @@ alter table Student drop index major;
 -- fk 생성(fk name)
 alter table Student add constraint fk_major_Major_id foreign key (major) references Major(id);
 alter table Student add constraint fk_major foreign key (major) references Major(id);
+
+create table Prof(
+    id mediumint unsigned not null auto_increment primary key,
+    createdate timestamp not null default current_timestamp,
+    workddate timestamp not null default current_timestamp on update current_timestamp,
+    name varchar(31) not null comment '교수명',
+    likecnt int not null default 0 comment '좋아요 수'
+);
+
+-- alter table Prof modify column id mediumint unsigned not null auto_increment;
+
+create table Subject(
+    id smallint unsigned not null auto_increment primary key,
+    createdate timestamp not null default current_timestamp,
+    workddate timestamp not null default current_timestamp on update current_timestamp,
+    name varchar(31) not null comment '과목명',
+    prof mediumint unsigned null comment '주임교수',
+    foreign key fk_prof(prof) references Prof(id) on delete set null on update cascade,
+    UNIQUE KEY uniq_name(name)
+);
+
+-- alter table Subject modify column id smallint unsigned not null auto_increment;
+
+create table Enroll(
+    id int unsigned not null auto_increment primary key,
+    createdate timestamp not null default current_timestamp,
+    workddate timestamp not null default current_timestamp on update current_timestamp,
+    subject smallint unsigned not null comment '과목 id',
+    student int unsigned not null comment '신청 학생 id',
+    foreign key fk_subject(subject) references Subject(id) on delete cascade on update cascade,
+    foreign key fk_student(student) references Student(id) on delete cascade on update cascade
+);
+
+-- drop table Subject;
+-- drop table Prof;
