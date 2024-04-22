@@ -116,9 +116,3 @@ create table EmailLog(
 
 show index from EmailLog;
 select * from EmailLog;
-
-select enc,  CAST(aes_decrypt(unhex(enc), '암호키') as char), CAST(aes_decrypt(ee, '암호키') as char)
-  from (select dname, HEX(AES_ENCRYPT(dname, '암호키')) enc, 
-               AES_ENCRYPT(dname, '암호키') ee from Dept) sub;
-               
-select str_to_date('2018-12-03', '%Y-%m-%d');
