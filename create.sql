@@ -64,3 +64,32 @@ insert into Emp2(ename, dept, salary) values('테스트', 4, 500);
 
 delete from Emp2 where id > 0;
 truncate table Emp2;
+
+select * from Dept;
+
+alter table Dept drop column workdate;
+
+alter table Dept add column workdate timestamp not null 
+  default current_timestamp
+  on update current_timestamp
+  comment '작업일시';
+  
+alter table Dept modify column workdate timestamp not null 
+  default current_timestamp
+  on update current_timestamp
+  comment '작업일시'
+  after pid;
+  
+alter table Dept add column createdate timestamp not null 
+  default current_timestamp comment '생성일시' after pid;
+
+select * from Emp;
+
+alter table Emp add column auth tinyint not null 
+  default 0 comment '권한(0:sys, 1:super, …, 9:guest)' after dept;
+  
+alter table Emp modify column auth tinyint not null 
+  default 9 comment '권한(0:sys, 1:super, …, 9:guest)' after dept;
+  
+update Emp set auth = 9 where id > 0;
+
