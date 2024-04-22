@@ -1,3 +1,13 @@
+use mysql;
+
+create database schooldb;
+
+create user school@'%' identified by 'school';
+
+grant all privileges on schooldb.* to school@'%';
+
+flush privileges;
+
 -- 학과테이블
 create table Major(
     id smallint unsigned auto_increment primary key comment '학과번호',
@@ -47,66 +57,6 @@ alter table Student add Column workdate timestamp not null
   default current_timestamp on update current_timestamp after createdate;
   
 show create table Student;
-
-CREATE TABLE `Student` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `createdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `workdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `name` varchar(31) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '학생 이름',
-  `birthdt` date NOT NULL COMMENT '생년월일',
-  `major` smallint NOT NULL COMMENT '학과 id',
-  `mobile` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '휴대전화',
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '이메일주소',
-  `gender` tinyint(1) NOT NULL COMMENT '성별',
-  `graduatedt` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '졸업일',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `Student` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `createdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `workdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `name` varchar(31) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '학생 이름',
-  `birthdt` date NOT NULL COMMENT '생년월일',
-  `major` smallint unsigned NOT NULL COMMENT '학과 id',
-  `mobile` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '휴대전화',
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '이메일주소',
-  `gender` tinyint(1) NOT NULL COMMENT '성별',
-  `graduatedt` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '졸업일',
-  PRIMARY KEY (`id`),
-  KEY `major` (`major`),
-  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`major`) REFERENCES `Major` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `Student` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `createdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `workdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `name` varchar(31) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '학생 이름',
-  `birthdt` date NOT NULL COMMENT '생년월일',
-  `major` smallint unsigned NOT NULL COMMENT '학과 id',
-  `mobile` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '휴대전화',
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '이메일주소',
-  `gender` tinyint(1) NOT NULL COMMENT '성별',
-  `graduatedt` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '졸업일',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `Student` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `createdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `workdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `name` varchar(31) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '학생 이름',
-  `birthdt` date NOT NULL COMMENT '생년월일',
-  `major` smallint unsigned NOT NULL COMMENT '학과 id',
-  `mobile` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '휴대전화',
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '이메일주소',
-  `gender` tinyint(1) NOT NULL COMMENT '성별',
-  `graduatedt` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '졸업일',
-  PRIMARY KEY (`id`),
-  KEY `fk_major` (`major`),
-  CONSTRAINT `fk_major` FOREIGN KEY (`major`) REFERENCES `Major` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 show index from Student;
 

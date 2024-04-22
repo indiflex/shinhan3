@@ -1,12 +1,3 @@
-use mysql;
-
-create database schooldb;
-
-create user school@'%' identified by 'school';
-
-grant all privileges on schooldb.* to school@'%';
-
-flush privileges;
 
 use testdb;
 
@@ -84,6 +75,10 @@ alter table Dept add column createdate timestamp not null
   default current_timestamp comment '생성일시' after pid;
 
 select * from Emp;
+desc Emp;
+select * from Dept;
+show index from Dept;
+show create table Dept;
 
 alter table Emp add column auth tinyint not null 
   default 0 comment '권한(0:sys, 1:super, …, 9:guest)' after dept;
@@ -93,3 +88,8 @@ alter table Emp modify column auth tinyint not null
   
 update Emp set auth = 9 where id > 0;
 
+-- Dept.captain - Emp.id
+alter table Dept add column captain int unsigned null comment '부서장';
+ 
+alter table Dept add constraint fk_captain_Emp foreign key (captain) references Emp(id);
+  -- on delete set null on update cascade;
