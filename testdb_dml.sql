@@ -90,3 +90,19 @@ update Emp e inner join Dept d on e.dept = d.id
  where d.captain >= 14 and e.salary = (select min(salary) from Emp);
  
 select * from Dept;
+
+select power(2, 3), conv('EF', 16, 10);
+
+select id, cast(id AS char), CONVERT(1.567, Signed Integer) from Dept order by id;
+
+update Dept set createdate = '2018-12-03' where id = 1;
+update Dept set createdate = str_to_date('2018-12-03', '%Y-%m-%d') where id = 2;
+
+select sha2('data', 256), sha2('data', 512);
+
+select dname, AES_ENCRYPT(dname, '암호키'), HEX(AES_ENCRYPT(dname, '암호키')) from Dept;
+
+select cast(aes_decrypt(sub.enc1, '암호키') as char),
+       cast(aes_decrypt(unhex(enc2), '암호키') as char)
+ from (select dname, AES_ENCRYPT(dname, '암호키') enc1, HEX(AES_ENCRYPT(dname, '암호키')) enc2
+         from Dept) sub;
