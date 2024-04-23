@@ -1,4 +1,4 @@
-select power(2, 3), conv('EF', 16, 10);
+select power(2, 3), conv('EF', 16, 10), conv('101', 2, 10);
 
 select id, cast(id AS char), CONVERT(1.567, Signed Integer) from Dept order by id;
 
@@ -16,9 +16,10 @@ select enc1, enc2,
  from (select AES_ENCRYPT(dname, '암호키') enc1, HEX(AES_ENCRYPT(dname, '암호키')) enc2
          from Dept) sub;
 
-select concat('A', ',', null, 'B'), concat_ws(',', 'A', null, 'B');
+select concat('A', '--', 'B'), concat('A', ',', null, 'B'), concat_ws(',', 'A', null, 'B');
+select concat('A', '--', 'B', ',', 'C'), concat('A', ',', ifnull(null, ''), ',', 'B');
          
-select concat(e.ename, ',', d.dname), concat_ws(',', e.ename, d.dname)
+select e.ename, concat(e.ename, ',', d.dname), concat_ws(',', e.ename, d.dname)
   from Emp e right outer join Dept d on e.id = d.captain;
 
 select ifnull(e.ename, '공석'), if(d.id = 2, 'Two', ''),
@@ -27,7 +28,7 @@ select ifnull(e.ename, '공석'), if(d.id = 2, 'Two', ''),
   from Emp e right outer join Dept d on e.id = d.captain;
 
 
-select ascii('A'), CAST(char(65, 66) as char);
+select ascii('A'), CAST(char(65, 66) as char), char(65, 66);
 
 select length('AB한글'), char_length('AB한글'), bit_length('A'), sign(-2);
 
@@ -65,8 +66,8 @@ select adddate(now(), interval 31 day), subdate(now(), interval 31 day);
 select date_add(now(), interval -31 day), adddate(now(), interval -1 month);
 select now(), addtime(now(), '1:1:1'), subtime(now(), '1:1:1');
 
-select DATE_FORMAT(now(), '%Y-%m-%d %h:%m:%s (%w)');
-select DATE_FORMAT(now(), '%Y-%m-%d %H:%m:%s (%W)');
+select DATE_FORMAT(now(), '%Y-%m-%d %h:%i:%s (%w)');
+select DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s (%W)');
 select DATE_FORMAT(now(), '%Y-%m-%d %T %p (%W) %U주 %j일째');
 select DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d');
 select DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 DAY), '%Y-%m-%d');
